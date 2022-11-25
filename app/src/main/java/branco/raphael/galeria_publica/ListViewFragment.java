@@ -19,13 +19,15 @@ public class ListViewFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private MainViewModel mViewModel;
+    private View view;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-    public ListViewFragment() {
-        // Required empty public constructor
+    public ListViewFragment newInstance() {
+        return new ListViewFragment();
     }
 
     /**
