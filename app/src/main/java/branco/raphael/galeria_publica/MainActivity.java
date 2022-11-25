@@ -22,15 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
+    static int RESULT_REQUEST_PERMISSION = 2;
     BottomNavigationView bottomNavigationView;
-
-    void setFragment(Fragment fragment) {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragContainer, fragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +48,22 @@ public class MainActivity extends AppCompatActivity {
                 }
                 return true;
             }
-            });
+        });
+    }
+
+    void setFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragContainer, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        List<String> permissions = new ArrayList<>();
+        permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+        checkForPermissions(permissions);
     }
 
     private void checkForPermissions(List<String> permissions) {
@@ -88,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions,
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         final List<String> permissionsRejected = new ArrayList<>();
         if(permissionsRejected.size() > 0) {
@@ -117,12 +125,5 @@ public class MainActivity extends AppCompatActivity {
             int navigationOpSelected = vm.getNavigationOpSelected();
             bottomNavigationView.setSelectedItemId(navigationOpSelected);
         }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        List<String> permissions = new ArrayList<>();
-        permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
-        checkForPermissions(permissions);
-    }
+}
 }
